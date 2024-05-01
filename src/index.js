@@ -19,7 +19,7 @@ module.exports = {
     let {Server} = require('socket.io')
     let io = new Server(strapi.server.httpServer,{
       cors:{
-        origin:"http://127.0.0.1:5500",
+        origin:"http://127.0.0.1:5500", // Port of VsCode's LiverServer Your's can differ
         methods:['GET','POST'],
         allowedHeaders:["my-custom-header"],
         credentials:true
