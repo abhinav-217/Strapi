@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(45deg, #8e44ad, #2c3e50);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    #messages {
+      list-style-type: none;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+
+    #messages li {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 5px;
+    }
+
+    #form {
+      display: flex;
+    }
+
+    #input {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      background-color: #e67e22;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #d35400;
+    }
+  </style>
+<body>
+    <h1>Welcome</h1>
+    <h3>Here I have intergrated strapi with socket in simplest way possible</h3>
+    <h4>Ask out something below or just type Hello</h4>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+        <input id="input" autocomplete="off" style="margin-right: 1vw;"/><button>Send</button>
+    </form>
+</body>
+<script src="node_modules/socket.io/client-dist/socket.io.js"></script>
+<script>
+    var socket = io("http://localhost:1337/");
+    var form = document.getElementById('form');
+    var input = document.getElementById('input');
+
+    form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value) {
+        socket.emit('chat message', input.value);
+        input.value = '';
+    }
+    });
+
+    socket.on('chat message', function(msg) {
+    var item = document.createElement('li');
+    console.log(msg)
+    final_message ="You asked:- " + msg.msg + "<br>" + "Answer:- " + msg.ai_response
+    item.innerHTML = final_message;
+    messages.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+</script>
+</body>
+</html>
